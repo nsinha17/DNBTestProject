@@ -29,23 +29,6 @@ export async function clickButton(page: Page, buttonName: string): Promise<void>
     await page.getByRole('button', {name: buttonName}).click();
 }
 
-export async function verifyCorporateAPIs(page: Page): Promise<void> {
-    await expect(page.getByText('Account Pre-validationCurrent')).toBeVisible();
-    await expect(page.getByText('CurrenciesCurrent version2.1.')).toBeVisible();
-}
-
-export async function verifyRegulatoryAPIs(page: Page): Promise<void> {
-    await expect(page.getByRole('link', {name: 'Account Information Service'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Payment Initiation Service'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'PSD2 Fallback'})).toBeVisible();
-}
-
-// Verify that specific APIs are visible
-export async function verifyAPIs(page: Page): Promise<void> {
-    await verifyCorporateAPIs(page);
-    await verifyRegulatoryAPIs(page);
-}
-
 export async function fillApplicationInformation(page: Page, applicationName: string, applicationDesc: string) {
     await page.getByRole('link', {name: 'Create app'}).click();
     await page.getByLabel('Application name').fill(applicationName);
@@ -100,4 +83,31 @@ export async function deleteApp(page: Page): Promise<boolean> {
     return response.status() == 204;
 }
 
+export async function selectCategoryAll(page: Page) {
+    await clickButton(page, 'All');
+}
 
+export async function selectCategoryCorporateAPI(page: Page) {
+    await clickButton(page, 'Corporate APIs');
+}
+
+export async function selectCategoryRegulatoryAPI(page: Page) {
+    await clickButton(page, 'Regulatory APIs');
+}
+
+export async function verifyCorporateAPIs(page: Page): Promise<void> {
+    await expect(page.getByText('Account Pre-validationCurrent')).toBeVisible();
+    await expect(page.getByText('CurrenciesCurrent version2.1.')).toBeVisible();
+}
+
+export async function verifyRegulatoryAPIs(page: Page): Promise<void> {
+    await expect(page.getByRole('link', {name: 'Account Information Service'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Payment Initiation Service'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'PSD2 Fallback'})).toBeVisible();
+}
+
+// Verify that specific APIs are visible
+export async function verifyAllAPIs(page: Page): Promise<void> {
+    await verifyCorporateAPIs(page);
+    await verifyRegulatoryAPIs(page);
+}
