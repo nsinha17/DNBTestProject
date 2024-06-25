@@ -1,13 +1,13 @@
 import {expect} from "@playwright/test";
 import {userCredentials} from "./credentials";
+import LoginPage from './pages/LoginPage';
 
 // Login
 export async function login(page: Page) {
     await navigateToHomepage(page)
     await page.getByRole('link', {name: 'Log in'}).click();
-    await page.getByLabel('Email address').fill(userCredentials.username)
-    await page.getByLabel('Password', {exact: true}).fill(userCredentials.password)
-    await page.getByRole('button', {name: 'Log in'}).click();
+    const login = new LoginPage(page);
+    await login.login(userCredentials.username, userCredentials.password)
     await page.waitForNavigation();
 }
 
